@@ -69,14 +69,12 @@ end_time {
   nanos: 4000
 }
 log_entries {
-  metadata {
-    timestamp {
-      seconds: 700
-      nanos: 600
-    }
-    severity: INFO
+  timestamp {
+    seconds: 700
+    nanos: 600
   }
-  log: "system_event"
+  severity: INFO
+  name: "system_event"
   text_payload: "Sample text log message 0"
 }
 metric_value_sets {
@@ -127,14 +125,12 @@ end_time {
   nanos: 4000
 }
 log_entries {
-  metadata {
-    timestamp {
-      seconds: 700
-      nanos: 600
-    }
-    severity: INFO
+  timestamp {
+    seconds: 700
+    nanos: 600
   }
-  log: "system_event"
+  severity: INFO
+  name: "system_event"
   text_payload: "Sample text log message 1"
 }
 metric_value_sets {
@@ -201,26 +197,22 @@ metric_value_sets {
   }
 }
 log_entries {
-  metadata {
-    severity: INFO
-    timestamp {
-      seconds: 700
-      nanos: 600
-    }
+  severity: INFO
+  timestamp {
+    seconds: 700
+    nanos: 600
   }
   text_payload: "Sample text log message 0"
-  log: "system_event"
+  name: "system_event"
 }
 log_entries {
-  metadata {
-    severity: INFO
-    timestamp {
-      seconds: 700
-      nanos: 600
-    }
+  severity: INFO
+  timestamp {
+    seconds: 700
+    nanos: 600
   }
   text_payload: "Sample text log message 1"
-  log: "system_event"
+  name: "system_event"
 }
 )";
 
@@ -270,26 +262,22 @@ metric_value_sets {
   }
 }
 log_entries {
-  metadata {
-    severity: INFO
-    timestamp {
-      seconds: 700
-      nanos: 600
-    }
+  severity: INFO
+  timestamp {
+    seconds: 700
+    nanos: 600
   }
   text_payload: "Sample text log message 0"
-  log: "system_event"
+  name: "system_event"
 }
 log_entries {
-  metadata {
-    severity: INFO
-    timestamp {
-      seconds: 700
-      nanos: 600
-    }
+  severity: INFO
+  timestamp {
+    seconds: 700
+    nanos: 600
   }
   text_payload: "Sample text log message 1"
-  log: "system_event"
+  name: "system_event"
 }
 )";
 
