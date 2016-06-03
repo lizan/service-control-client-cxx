@@ -449,7 +449,7 @@ class ServiceControlClientImplTest : public ::testing::Test {
         ReportAggregationOptions(1 /* entries */, 500 /*flush_interval_ms*/));
     options.check_transport = mock_check_transport_.GetFunc();
     options.report_transport = mock_report_transport_.GetFunc();
-    client_ = std::move(CreateServiceControlClient(kServiceName, options));
+    client_ = CreateServiceControlClient(kServiceName, options);
   }
 
   // Tests non cached check request. Mocked transport::Check() is storing
@@ -1802,7 +1802,7 @@ TEST_F(ServiceControlClientImplTest, TestFlushIntervalReportNeverFlush) {
       .WillOnce(Invoke(&mock_timer, &MockPeriodicTimer::MyStartTimer));
 
   std::unique_ptr<ServiceControlClient> client =
-      std::move(CreateServiceControlClient(kServiceName, options));
+      CreateServiceControlClient(kServiceName, options);
   ASSERT_EQ(mock_timer.interval_ms_, 1000);
 }
 
@@ -1822,7 +1822,7 @@ TEST_F(ServiceControlClientImplTest, TestFlushIntervalCheckNeverFlush) {
       .WillOnce(Invoke(&mock_timer, &MockPeriodicTimer::MyStartTimer));
 
   std::unique_ptr<ServiceControlClient> client =
-      std::move(CreateServiceControlClient(kServiceName, options));
+      CreateServiceControlClient(kServiceName, options);
   ASSERT_EQ(mock_timer.interval_ms_, 500);
 }
 
@@ -1840,7 +1840,7 @@ TEST_F(ServiceControlClientImplTest, TestFlushInterval) {
       .WillOnce(Invoke(&mock_timer, &MockPeriodicTimer::MyStartTimer));
 
   std::unique_ptr<ServiceControlClient> client =
-      std::move(CreateServiceControlClient(kServiceName, options));
+      CreateServiceControlClient(kServiceName, options);
   ASSERT_EQ(mock_timer.interval_ms_, 800);
 }
 
@@ -1857,7 +1857,7 @@ TEST_F(ServiceControlClientImplTest, TestFlushCalled) {
   EXPECT_CALL(mock_timer, StartTimer(_, _))
       .WillOnce(Invoke(&mock_timer, &MockPeriodicTimer::MyStartTimer));
 
-  client_ = std::move(CreateServiceControlClient(kServiceName, options));
+  client_ = CreateServiceControlClient(kServiceName, options);
   ASSERT_TRUE(mock_timer.callback_ != NULL);
 
   ReportResponse report_response;
@@ -1897,7 +1897,7 @@ TEST_F(ServiceControlClientImplTest,
   EXPECT_CALL(mock_timer, StartTimer(_, _))
       .WillOnce(Invoke(&mock_timer, &MockPeriodicTimer::MyStartTimer));
 
-  client_ = std::move(CreateServiceControlClient(kServiceName, options));
+  client_ = CreateServiceControlClient(kServiceName, options);
   ASSERT_TRUE(mock_timer.callback_ != NULL);
 
   ReportResponse report_response;

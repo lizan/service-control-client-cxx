@@ -34,46 +34,43 @@ class ServiceControlClientImpl : public ServiceControlClient {
                            ServiceControlClientOptions& options);
 
   // Override the destructor.
-  ~ServiceControlClientImpl() override;
+  virtual ~ServiceControlClientImpl();
 
   // An async check call.
-  void Check(
+  virtual void Check(
       const ::google::api::servicecontrol::v1::CheckRequest& check_request,
       ::google::api::servicecontrol::v1::CheckResponse* check_response,
-      DoneCallback on_check_done) override;
+      DoneCallback on_check_done);
 
   // A sync check call.
-  ::google::protobuf::util::Status Check(
+  virtual ::google::protobuf::util::Status Check(
       const ::google::api::servicecontrol::v1::CheckRequest& check_request,
-      ::google::api::servicecontrol::v1::CheckResponse* check_response)
-      override;
+      ::google::api::servicecontrol::v1::CheckResponse* check_response);
 
   // A check call with per_request transport.
-  void Check(
+  virtual void Check(
       const ::google::api::servicecontrol::v1::CheckRequest& check_request,
       ::google::api::servicecontrol::v1::CheckResponse* check_response,
-      DoneCallback on_check_done, TransportCheckFunc check_transport) override;
+      DoneCallback on_check_done, TransportCheckFunc check_transport);
 
   // An async report call.
-  void Report(
+  virtual void Report(
       const ::google::api::servicecontrol::v1::ReportRequest& report_request,
       ::google::api::servicecontrol::v1::ReportResponse* report_response,
-      DoneCallback on_report_done) override;
+      DoneCallback on_report_done);
 
   // A sync report call.
-  ::google::protobuf::util::Status Report(
+  virtual ::google::protobuf::util::Status Report(
       const ::google::api::servicecontrol::v1::ReportRequest& report_request,
-      ::google::api::servicecontrol::v1::ReportResponse* report_response)
-      override;
+      ::google::api::servicecontrol::v1::ReportResponse* report_response);
 
-  ::google::protobuf::util::Status GetStatistics(
-      Statistics* stat) const override;
+  virtual ::google::protobuf::util::Status GetStatistics(
+      Statistics* stat) const;
   // A report call with per_request transport.
-  void Report(
+  virtual void Report(
       const ::google::api::servicecontrol::v1::ReportRequest& report_request,
       ::google::api::servicecontrol::v1::ReportResponse* report_response,
-      DoneCallback on_report_done,
-      TransportReportFunc report_transport) override;
+      DoneCallback on_report_done, TransportReportFunc report_transport);
 
  private:
   // A flush callback for check.

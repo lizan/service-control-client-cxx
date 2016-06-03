@@ -88,38 +88,37 @@ class CheckAggregatorImpl : public CheckAggregator,
                       const CheckAggregationOptions& options,
                       std::shared_ptr<MetricKindMap> metric_kind);
 
-  ~CheckAggregatorImpl() override;
+  virtual ~CheckAggregatorImpl();
 
   // Sets the flush callback function.
   // It is called when a cache entry is expired and it has aggregated quota
   // in the request. The callback function needs to send the request to server,
   // calls CacheResponse() to set its response.
-  void SetFlushCallback(FlushCallback callback) override;
+  virtual void SetFlushCallback(FlushCallback callback);
 
   // If the check could not be handled by the cache, returns NOT_FOUND,
   // caller has to send the request to service control server and call
   // CacheResponse() to set the response to the cache.
   // Otherwise, returns OK and cached response.
-  ::google::protobuf::util::Status Check(
+  virtual ::google::protobuf::util::Status Check(
       const ::google::api::servicecontrol::v1::CheckRequest& request,
-      ::google::api::servicecontrol::v1::CheckResponse* response) override;
+      ::google::api::servicecontrol::v1::CheckResponse* response);
 
   // Caches a response from a remote Service Controller Check call.
-  ::google::protobuf::util::Status CacheResponse(
+  virtual ::google::protobuf::util::Status CacheResponse(
       const ::google::api::servicecontrol::v1::CheckRequest& request,
-      const ::google::api::servicecontrol::v1::CheckResponse& response)
-      override;
+      const ::google::api::servicecontrol::v1::CheckResponse& response);
 
   // When the next Flush() should be called.
   // Returns in ms from now, or -1 for never
-  int GetNextFlushInterval() override;
+  virtual int GetNextFlushInterval();
 
   // Flushes expired cache response entries.
   // Called at time specified by GetNextFlushInterval().
-  ::google::protobuf::util::Status Flush() override;
+  virtual ::google::protobuf::util::Status Flush();
 
   // Flushes out all cache items. Usually called at destructor.
-  ::google::protobuf::util::Status FlushAll() override;
+  virtual ::google::protobuf::util::Status FlushAll();
 
  private:
   // Cache entry for aggregated check requests and previous check response.

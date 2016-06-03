@@ -37,7 +37,6 @@ namespace service_control_client {
 namespace {
 
 const char kServiceName[] = "library.googleapis.com";
-const char kMetric[] = "library.googleapis.com/rpc/client/count";
 
 const int kFlushIntervalMs = 100;
 const int kExpirationMs = 200;
@@ -140,9 +139,9 @@ class CheckAggregatorImplTest : public ::testing::Test {
     CheckAggregationOptions options(1 /*entries*/, kFlushIntervalMs,
                                     kExpirationMs);
 
-    aggregator_ = std::move(CreateCheckAggregator(
+    aggregator_ = CreateCheckAggregator(
         kServiceName, options,
-        std::shared_ptr<MetricKindMap>(new MetricKindMap)));
+        std::shared_ptr<MetricKindMap>(new MetricKindMap));
     ASSERT_TRUE((bool)(aggregator_));
     aggregator_->SetFlushCallback(std::bind(
         &CheckAggregatorImplTest::FlushCallback, this, std::placeholders::_1));
@@ -191,9 +190,8 @@ TEST_F(CheckAggregatorImplTest, TestHighValueOperationSuccess) {
 
 TEST_F(CheckAggregatorImplTest, TestDisableCache) {
   CheckAggregationOptions options(0 /*entries*/, 1000, 2000);
-  aggregator_ = std::move(
-      CreateCheckAggregator(kServiceName, options,
-                            std::shared_ptr<MetricKindMap>(new MetricKindMap)));
+  aggregator_ = CreateCheckAggregator(
+      kServiceName, options, std::shared_ptr<MetricKindMap>(new MetricKindMap));
   ASSERT_TRUE((bool)(aggregator_));
   CheckResponse response;
   EXPECT_ERROR_CODE(Code::NOT_FOUND, aggregator_->Check(request1_, &response));

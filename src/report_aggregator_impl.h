@@ -49,29 +49,29 @@ class ReportAggregatorImpl : public ReportAggregator,
                        const ReportAggregationOptions& options,
                        std::shared_ptr<MetricKindMap> metric_kind);
 
-  ~ReportAggregatorImpl() override;
+  virtual ~ReportAggregatorImpl();
 
   // Sets the flush callback function.
-  void SetFlushCallback(FlushCallback callback);
+  virtual void SetFlushCallback(FlushCallback callback);
 
   // Adds a report request to cache. Returns NOT_FOUND if it could not be
   // aggregated. Callers need to send it to the server.
-  ::google::protobuf::util::Status Report(
-      const ::google::api::servicecontrol::v1::ReportRequest& request) override;
+  virtual ::google::protobuf::util::Status Report(
+      const ::google::api::servicecontrol::v1::ReportRequest& request);
 
   // When the next Flush() should be called.
   // Returns in ms from now, or -1 for never
-  int GetNextFlushInterval() override;
+  virtual int GetNextFlushInterval();
 
   // Flushes aggregated requests longer than flush_interval.
   // Called at time specified by GetNextFlushInterval().
-  ::google::protobuf::util::Status Flush() override;
+  virtual ::google::protobuf::util::Status Flush();
 
   // Flushes all cache items. For each item, it will call flush_callback.
   // It is a blocking call, only returns when all items are removed.
   // When calling flush_callback, it is a blocking call too, it will wait for
   // the flush_callback() function return.
-  ::google::protobuf::util::Status FlushAll() override;
+  virtual ::google::protobuf::util::Status FlushAll();
 
  private:
   using CacheDeleter = std::function<void(OperationAggregator*)>;
@@ -87,7 +87,7 @@ class ReportAggregatorImpl : public ReportAggregator,
   // Tries to merge two report requests.
   bool MergeItem(
       const ::google::api::servicecontrol::v1::ReportRequest& new_item,
-      ::google::api::servicecontrol::v1::ReportRequest* old_item) override;
+      ::google::api::servicecontrol::v1::ReportRequest* old_item);
 
   // The service name.
   const std::string service_name_;

@@ -38,7 +38,6 @@ namespace {
 const char kMetric[] = "library.googleapis.com/rpc/client/count";
 
 const char kUSD[] = "USD";
-const char kCAD[] = "CAD";
 
 const char kOperation1[] = R"(
 operation_id: "some-operation-id"
@@ -319,7 +318,7 @@ bucket_counts: 2
 
 class OperationAggregatorTest : public ::testing::Test {
  protected:
-  void SetUp() override {
+  virtual void SetUp() {
     ASSERT_TRUE(TextFormat::ParseFromString(kOperation1, &operation1_));
     ASSERT_TRUE(TextFormat::ParseFromString(kOperation2, &operation2_));
 

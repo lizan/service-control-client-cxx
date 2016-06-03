@@ -40,9 +40,6 @@ namespace service_control_client {
 namespace {
 
 const char kServiceName[] = "library.googleapis.com";
-const char kMetric[] = "library.googleapis.com/rpc/client/count";
-
-const char kOperationId1[] = "operation-1";
 
 const char kRequest1[] = R"(
 service_name: "library.googleapis.com"
@@ -174,9 +171,9 @@ class ReportAggregatorImplTest : public ::testing::Test {
     ASSERT_TRUE(TextFormat::ParseFromString(kDeltaMerged12, &delta_merged12_));
 
     ReportAggregationOptions options(1 /*entries*/, 1000 /*flush_interval_ms*/);
-    aggregator_ = std::move(CreateReportAggregator(
+    aggregator_ = CreateReportAggregator(
         kServiceName, options,
-        std::shared_ptr<MetricKindMap>(new MetricKindMap)));
+        std::shared_ptr<MetricKindMap>(new MetricKindMap));
     ASSERT_TRUE((bool)(aggregator_));
     aggregator_->SetFlushCallback(std::bind(
         &ReportAggregatorImplTest::FlushCallback, this, std::placeholders::_1));
@@ -292,9 +289,8 @@ TEST_F(ReportAggregatorImplTest, TestHighValueOperationSuccess) {
 
 TEST_F(ReportAggregatorImplTest, TestDisableCache) {
   ReportAggregationOptions options(0 /*entries*/, 1000 /*flush_interval_ms*/);
-  aggregator_ = std::move(CreateReportAggregator(
-      kServiceName, options,
-      std::shared_ptr<MetricKindMap>(new MetricKindMap)));
+  aggregator_ = CreateReportAggregator(
+      kServiceName, options, std::shared_ptr<MetricKindMap>(new MetricKindMap));
   ASSERT_TRUE((bool)(aggregator_));
   aggregator_->SetFlushCallback(std::bind(
       &ReportAggregatorImplTest::FlushCallback, this, std::placeholders::_1));

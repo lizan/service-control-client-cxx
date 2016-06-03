@@ -31,10 +31,10 @@ namespace service_control_client {
 
 ServiceControlClientImpl::ServiceControlClientImpl(
     const string& service_name, ServiceControlClientOptions& options) {
-  check_aggregator_ = std::move(CreateCheckAggregator(
-      service_name, options.check_options, options.metric_kinds));
-  report_aggregator_ = std::move(CreateReportAggregator(
-      service_name, options.report_options, options.metric_kinds));
+  check_aggregator_ = CreateCheckAggregator(service_name, options.check_options,
+                                            options.metric_kinds);
+  report_aggregator_ = CreateReportAggregator(
+      service_name, options.report_options, options.metric_kinds);
 
   check_transport_ = options.check_transport;
   report_transport_ = options.report_transport;
