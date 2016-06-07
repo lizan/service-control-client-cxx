@@ -170,8 +170,16 @@ Status ServiceControlClientImpl::Check(const CheckRequest& check_request,
   StatusPromise status_promise;
   StatusFuture status_future = status_promise.get_future();
 
-  Check(check_request, check_response,
-        [&status_promise](Status status) { status_promise.set_value(status); });
+  Check(check_request, check_response, [&status_promise](Status status) {
+    // Need to move the promise as it must be owned by the thread where this
+    // lambda is executed rather than the thread where the original Check()
+    // call is executed.
+    // Otherwise, if we call std::promise::set_value(), the original thread will
+    // be unblocked and it might destroy the promise object before set_value()
+    // has a chance to finish.
+    StatusPromise moved_promise(std::move(status_promise));
+    moved_promise.set_value(status);
+  });
 
   status_future.wait();
   return status_future.get();
@@ -209,7 +217,14 @@ Status ServiceControlClientImpl::Report(const ReportRequest& report_request,
   StatusFuture status_future = status_promise.get_future();
 
   Report(report_request, report_response, [&status_promise](Status status) {
-    status_promise.set_value(status);
+    // Need to move the promise as it must be owned by the thread where this
+    // lambda is executed rather than the thread where the original Report()
+    // call is executed.
+    // Otherwise, if we call std::promise::set_value(), the original thread will
+    // be unblocked and it might destroy the promise object before set_value()
+    // has a chance to finish.
+    StatusPromise moved_promise(std::move(status_promise));
+    moved_promise.set_value(status);
   });
 
   status_future.wait();

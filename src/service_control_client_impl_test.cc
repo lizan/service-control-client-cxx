@@ -581,7 +581,8 @@ class ServiceControlClientImplTest : public ::testing::Test {
 
     CheckResponse check_response;
     client_->Check(request, &check_response, [&status_promise](Status status) {
-      status_promise.set_value(status);
+      StatusPromise moved_promise(std::move(status_promise));
+      moved_promise.set_value(status);
     });
 
     // Since it is not cached, transport should be called.
@@ -778,7 +779,8 @@ class ServiceControlClientImplTest : public ::testing::Test {
 
     CheckResponse check_response;
     client_->Check(request2, &check_response, [&status_promise](Status status) {
-      status_promise.set_value(status);
+      StatusPromise moved_promise(std::move(status_promise));
+      moved_promise.set_value(status);
     });
 
     // on_check_done is called with right status.
@@ -1740,9 +1742,11 @@ TEST_F(ServiceControlClientImplTest, TestNonCachedReportUsingThread) {
   // This request is high important, so it will not be cached.
   // client->Report() will call Transport::Report() right away.
   report_request1_.mutable_operations(0)->set_importance(Operation::HIGH);
-  client_->Report(
-      report_request1_, &report_response,
-      [&status_promise](Status status) { status_promise.set_value(status); });
+  client_->Report(report_request1_, &report_response,
+                  [&status_promise](Status status) {
+                    StatusPromise moved_promise(std::move(status_promise));
+                    moved_promise.set_value(status);
+                  });
 
   Statistics stat;
   Status stat_status = client_->GetStatistics(&stat);
