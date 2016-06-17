@@ -20,7 +20,7 @@ It offers:
 To download the service control client source code, clone the repository:
 
     # Clone the repository
-    git clone sso://gcp-apis/service-control-client-cxx
+    git clone https://github.com/cloudendpoints/service-control-client-cxx.git
 
 ## Repository Structure ##
 
