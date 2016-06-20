@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/cloudendpoints/service-control-client-cxx.svg?branch=master)](https://travis-ci.org/cloudendpoints/service-control-client-cxx)
+
 # The Service Control Client library for c/c++ #
 
 The service control client library provides C++ APIs for:
