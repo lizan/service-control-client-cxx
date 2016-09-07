@@ -28,9 +28,8 @@ function install_hook() {
 }
 
 install_hook "${ROOT}"
-install_hook "${ROOT}/third_party/config"
 
-for repo in . third_party/config; do
+for repo in .; do
   ORIGIN=$(git -C "${ROOT}/${repo}" config remote.origin.url)
   git -C "${ROOT}/${repo}" config remote.review.pushurl ${ORIGIN}
   git -C "${ROOT}/${repo}" config remote.review.push HEAD:refs/for/master

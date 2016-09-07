@@ -74,12 +74,8 @@ operation_id: "operation-1"
 const char kErrorCheckResponse1[] = R"(
 operation_id: "operation-1"
 check_errors {
-  code: LOAD_SHEDDING
-  detail: "load shedding"
-}
-check_errors {
-  code: ABUSER_DETECTED
-  detail: "abuse detected"
+  code: PERMISSION_DENIED
+  detail: "permission denied"
 }
 )";
 
@@ -113,12 +109,8 @@ operation_id: "operation-2"
 const char kErrorCheckResponse2[] = R"(
 operation_id: "operation-2"
 check_errors {
-  code: LOAD_SHEDDING
-  detail: "load shedding"
-}
-check_errors {
-  code: ABUSER_DETECTED
-  detail: "abuse detected"
+  code: PERMISSION_DENIED
+  detail: "permission denied"
 }
 )";
 

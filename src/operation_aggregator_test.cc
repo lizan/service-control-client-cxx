@@ -338,15 +338,6 @@ class OperationAggregatorTest : public ::testing::Test {
   }
 
   // Set the first metric value of the first metric value set to be double.
-  void SetMoneyValue(const Money& value, Operation* operation) {
-    GOOGLE_CHECK(operation->metric_value_sets_size() > 0 &&
-                 operation->metric_value_sets(0).metric_values_size() > 0);
-    *(operation->mutable_metric_value_sets(0)
-          ->mutable_metric_values(0)
-          ->mutable_money_value()) = value;
-  }
-
-  // Set the first metric value of the first metric value set to be double.
   void SetDistributionValue(const Distribution& value, Operation* operation) {
     GOOGLE_CHECK(operation->metric_value_sets_size() > 0 &&
                  operation->metric_value_sets(0).metric_values_size() > 0);
@@ -498,20 +489,6 @@ TEST_F(OperationAggregatorTest, DeltaMetricKind_DoubleValue) {
   OperationAggregator iop(operation1_, &delta_metric_kind_);
   iop.MergeOperation(operation2_);
 
-  EXPECT_TRUE(
-      MessageDifferencer::Equals(iop.ToOperationProto(), delta_merged12_));
-}
-
-TEST_F(OperationAggregatorTest, DeltaMetricKind_MoneyValue) {
-  Money money1 = CreateMoney(kUSD, 10);
-  Money money2 = CreateMoney(kUSD, 20);
-  Money sum = CreateMoney(kUSD, 30);
-
-  SetMoneyValue(money1, &operation1_);
-  SetMoneyValue(money2, &operation2_);
-  SetMoneyValue(sum, &delta_merged12_);
-  OperationAggregator iop(operation1_, &delta_metric_kind_);
-  iop.MergeOperation(operation2_);
   EXPECT_TRUE(
       MessageDifferencer::Equals(iop.ToOperationProto(), delta_merged12_));
 }

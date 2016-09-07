@@ -45,12 +45,6 @@ void UpdateHashLabels(const ::google::protobuf::Map<string, string>& labels,
 // Updates the give hasher with the given metric value.
 void UpdateHashMetricValue(const MetricValue& metric_value, MD5* hasher) {
   UpdateHashLabels(metric_value.labels(), hasher);
-
-  // If the value is money, add the currency code into the signature.
-  if (metric_value.value_case() == MetricValue::ValueCase::kMoneyValue) {
-    hasher->Update(kDelimiter, kDelimiterLength);
-    hasher->Update(metric_value.money_value().currency_code());
-  }
 }
 }  // namespace
 
@@ -92,9 +86,6 @@ string GenerateCheckRequestSignature(const CheckRequest& request) {
       UpdateHashMetricValue(metric_value, &hasher);
     }
   }
-
-  hasher.Update(kDelimiter, kDelimiterLength);
-  hasher.Update(operation.quota_properties().SerializeAsString());
 
   hasher.Update(kDelimiter, kDelimiterLength);
 

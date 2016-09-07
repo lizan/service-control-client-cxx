@@ -134,19 +134,10 @@ TEST_F(SignatureUtilTest, MetricValueWithLabels) {
       MD5::DebugString(GenerateReportMetricValueSignature(metric_value_)));
 }
 
-TEST_F(SignatureUtilTest, MetricValueHavingMoney) {
-  Money* money = metric_value_.mutable_money_value();
-  money->set_currency_code("USD");
-  money->set_units(1000);
-  EXPECT_EQ(
-      "dbe2168cd8ad1eb33d8f9f6b9aea7f52",
-      MD5::DebugString(GenerateReportMetricValueSignature(metric_value_)));
-}
-
 TEST_F(SignatureUtilTest, CheckRequest) {
   CheckRequest request;
   ASSERT_TRUE(TextFormat::ParseFromString(kCheckRequest, &request));
-  EXPECT_EQ("71287bd97890da01fd14d3f8daef3db9",
+  EXPECT_EQ("4deb431384f1dbb616b59e00db496347",
             MD5::DebugString(GenerateCheckRequestSignature(request)));
 }
 

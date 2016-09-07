@@ -86,20 +86,6 @@ void MergeDeltaMetricValue(const MetricValue& from, MetricValue* to) {
     case MetricValue::kDoubleValue:
       to->set_double_value(to->double_value() + from.double_value());
       break;
-    case MetricValue::kMoneyValue: {
-      // Since the currency code is in included in the metric value signature,
-      // the currency codes in from and to should be identical when they
-      // reach here. We are being defensive here to double check.
-      if (from.money_value().currency_code() ==
-          to->money_value().currency_code()) {
-        *to->mutable_money_value() =
-            SaturatedAddMoney(from.money_value(), to->money_value());
-      } else {
-        GOOGLE_LOG(ERROR)
-            << "Different currency code in MergeDeltaMetricValue. This "
-               "indicates a bug in metric value signature logic.";
-      }
-    } break;
     case MetricValue::kDistributionValue:
       DistributionHelper::Merge(from.distribution_value(),
                                 to->mutable_distribution_value());

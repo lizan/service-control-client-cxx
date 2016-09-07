@@ -8,7 +8,7 @@ cc_library(
     hdrs = ["utils/distribution_helper.h"],
     visibility = ["//visibility:public"],
     deps = [
-        "//third_party/config:servicecontrol",
+        "//external:servicecontrol",
     ],
 )
 
@@ -50,7 +50,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         "//external:boringssl_crypto",
-        "//third_party/config:servicecontrol",
+        "//external:servicecontrol",
     ],
 )
 

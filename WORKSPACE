@@ -67,3 +67,20 @@ bind(
     name = "cc_wkt_protos_genproto",
     actual = "@protobuf_git//:cc_wkt_protos_genproto",
 )
+
+new_git_repository(
+    name = "googleapis_git",
+    commit = "2608c0a7a988c62ac1c5f38c7f1f0516430ad1de",
+    remote = "https://github.com/googleapis/googleapis.git",
+    build_file = "third_party/BUILD.googleapis",
+)
+
+bind(
+    name = "servicecontrol",
+    actual = "@googleapis_git//:servicecontrol",
+)
+
+bind(
+    name = "service_config",
+    actual = "@googleapis_git//:service_config",
+)
