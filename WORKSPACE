@@ -70,7 +70,7 @@ bind(
 
 new_git_repository(
     name = "googleapis_git",
-    commit = "27156597fdf4fb77004434d4409154a230dc9a32", # common-protos-1_3_1
+    commit = "6c1d6d4067364a21f8ffefa3401b213d652bf121", # common-protos-1_3_1
     remote = "https://github.com/googleapis/googleapis.git",
     build_file = "third_party/BUILD.googleapis",
 )
