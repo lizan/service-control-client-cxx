@@ -32,7 +32,8 @@ namespace {
 
 // A report can carry many operations, merge multiple report requests
 // into one report request until its number of operations reach this limit.
-const int kMaxOperationsToSend = 1000;
+// Each report is about 4KB now. Maximum allowed size from server is 1MB.
+const int kMaxOperationsToSend = 100;
 
 // Returns whether the given report request has high value operations.
 bool HasHighImportantOperation(const ReportRequest& request) {
